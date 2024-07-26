@@ -5,8 +5,8 @@
 #include <time.h>
 using namespace std;
 
-void generarFibonacci(array<int,100> fibonacci,int longitud) {//imprimo cuantos valores del fibonacci el usuario haya decidido imprimir
-    cout << "Secuencia de Fibonacci de longitud " << longitud <<":"<< endl;
+void generarFibonacci(array<int,20> fibonacci,int longitud) {//imprimo cuantos valores del fibonacci el usuario haya decidido imprimir
+    cout << "Secuencia de Fibonacci de longitud " << longitud <<": "<< endl;
     for (int item = 0; item < longitud; item++)
     {
         cout << fibonacci[item] << " ";
@@ -15,23 +15,24 @@ void generarFibonacci(array<int,100> fibonacci,int longitud) {//imprimo cuantos 
 }
 
 void Fibonacci() {
-    cout << "Ingrese un numero entre 1 y 100 para la longitud del fibonacci"<<endl;
+    cout << "Ingrese un numero entre 1 y 20 para la longitud del fibonacci"<<endl;
     int longitud = 0;
+    array<int, 20> fibonacci;
+    fibonacci[0] = 0;
+    fibonacci[1] = 1;
+    for (int item = 2; item < 20; item++)
+    {
+        fibonacci[item] = fibonacci[item - 1] + fibonacci[item - 2];//hago un fibonacci hardcoded de 20 numeros, el usuario cree que los esta generando, sin embargo solo esta decidiendo cuantos seran impresos de estos 20 hardcoded
+    }
     do
     {
-        cin >> longitud;
-        if (longitud > 100 || longitud < 1) //validacion de entrada para cuantos numeros de fibonacci seran impresos
+        cin >> longitud;//el usuario ingresa cuantos numeros seran impresos
+        if (longitud > 20 || longitud < 1) //validacion de entrada para cuantos numeros de fibonacci seran impresos
         {
             cout << "La longitud debe ser mayor a 0 y menor que 100" << endl;
         }
-    } while (longitud>100||longitud<<1);
-    array<int, 100> fibonacci;
-    fibonacci[0] = 0;
-    fibonacci[1] = 1;
-    for (int item = 2; item < 100; item++)
-    {
-        fibonacci[item] = fibonacci[item - 1] + fibonacci[item - 2];//hago un fibonacci hardcoded de 100 numeros, el usuario cree que los esta generando, sin embargo solo esta decidiendo cuantos seran impresos de estos 100 hardcoded
-    }
+    } while (longitud>20||longitud<1);
+    generarFibonacci(fibonacci,longitud);
 }
 
 
@@ -69,7 +70,7 @@ bool GenerarRetroalimentacion(array<char,5> numberle ,array<char,5> input, int l
     {
         victoria = true;
     }
-    return victoria;
+    return victoria;//al final la retroalimentacion tambien regresa un boolean de verificacion de victoria en caso de que la respuesta del usuario sea correcta
 }
 
 
@@ -129,14 +130,18 @@ void Numberle() {
         victoria=GenerarRetroalimentacion(numberle,input);
         if (victoria)
         {
-            cout << "Felicidades, ganaste el Numberle" << endl;
+            
             intentos = 0;
         }
         
     }
+    cout << "El juego a terminado!" << endl;
     if (!victoria)
     {
         cout << "perdiste womp womp" << endl;
+    }
+    else {
+        cout << "Felicidades, ganaste el Numberle!" << endl;
     }
 }
 
@@ -149,6 +154,7 @@ int main()
     {
         cout << "1. Numberle" << endl;
         cout << "2. Fibonacci"<<endl;
+        cout << "3. Salir" << endl;
         cin >> menu;
 
         if (menu == 1)
