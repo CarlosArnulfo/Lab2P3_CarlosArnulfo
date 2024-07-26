@@ -5,31 +5,61 @@
 #include <time.h>
 using namespace std;
 
-bool GenerarRetroalimentacion(array<char,5> numberle ,array<char,5> input) {
+void generarFibonacci(array<int,100> fibonacci,int longitud) {//imprimo cuantos valores del fibonacci el usuario haya decidido imprimir
+    cout << "Secuencia de Fibonacci de longitud " << longitud <<":"<< endl;
+    for (int item = 0; item < longitud; item++)
+    {
+        cout << fibonacci[item] << " ";
+    }
+    cout << endl;
+}
+
+void Fibonacci() {
+    cout << "Ingrese un numero entre 1 y 100 para la longitud del fibonacci"<<endl;
+    int longitud = 0;
+    do
+    {
+        cin >> longitud;
+        if (longitud > 100 || longitud < 1) //validacion de entrada para cuantos numeros de fibonacci seran impresos
+        {
+            cout << "La longitud debe ser mayor a 0 y menor que 100" << endl;
+        }
+    } while (longitud>100||longitud<<1);
+    array<int, 100> fibonacci;
+    fibonacci[0] = 0;
+    fibonacci[1] = 1;
+    for (int item = 2; item < 100; item++)
+    {
+        fibonacci[item] = fibonacci[item - 1] + fibonacci[item - 2];//hago un fibonacci hardcoded de 100 numeros, el usuario cree que los esta generando, sin embargo solo esta decidiendo cuantos seran impresos de estos 100 hardcoded
+    }
+}
+
+
+
+bool GenerarRetroalimentacion(array<char,5> numberle ,array<char,5> input, int longitud=5) {
     bool victoria=false;
     array<char, 5> respuesta = {'x','x','x','x','x'};
 
-    for (int item = 0; item < 5; item++)
+    for (int item = 0; item < longitud; item++)//la retroalimentacion verifica primero los numeros uno por uno para ver los valores que tienen mismo valor en misma posicion
     {
-        cout << numberle[item]<<endl;
         if (input[item]==numberle[item])
         {
             respuesta[item] = '+';
         }
     }
 
-    for (int itemNumberle = 0; itemNumberle < 5; itemNumberle++)
+    for (int itemNumberle = 0; itemNumberle < longitud; itemNumberle++)//luego comparamos todos los valores del input ingresado con todos los valores del numberle
     {
-        for (int itemInput = 0; itemInput < 5; itemInput++)
+        for (int itemInput = 0; itemInput < longitud; itemInput++)
         {
-            if (input[itemInput]==numberle[itemNumberle]&&respuesta[itemNumberle]!='+')
+            if (input[itemInput]==numberle[itemNumberle]&&respuesta[itemInput]!='+')//uno por uno, si el valor en la respuesta ya tiene un '+', entonces no se hace nada, de lo contrario, si un valor es igual al del numberle, su posicion en la retroalimentacion cambia por un '-'
             {
-                respuesta[itemNumberle] = '-';
+                respuesta[itemInput] = '-';
             }
         }
     }
 
-    for (int item = 0; item < 5; item++)
+    for (int item = 0; item < longitud; item++)
     {
         cout << respuesta[item];
     }
@@ -73,7 +103,7 @@ void Numberle() {
     array<char, 5> numberle;
     for (int num = 0; num < 5; num++)
     {
-        numberle[num] = rand() % max+48;
+        numberle[num] = rand() % max+48;//generacion del numberle
     }
     char numeroIngresado=0;
     cout << "--- Comienza el juego ---" << endl;
@@ -82,7 +112,7 @@ void Numberle() {
         cout << "Te quedan " << intentos << " intentos " << endl;
         intentos--;
         numeroIngresado = 0;
-            cout << "Ingrese un numero de 5 digitos" << endl;
+            cout << "Ingrese un numero de 5 digitos: ";//input del usuario
             for (int item = 0; item < 5; item++)
             {
                 cin >> input[item];
@@ -95,8 +125,8 @@ void Numberle() {
         }
         cout<< endl;
         
-        cout << "Retroalimentacion" << endl;
-        GenerarRetroalimentacion(numberle,input);
+        cout << "Retroalimentacion de este intento: ";
+        victoria=GenerarRetroalimentacion(numberle,input);
         if (victoria)
         {
             cout << "Felicidades, ganaste el Numberle" << endl;
@@ -118,6 +148,21 @@ int main()
     do
     {
         cout << "1. Numberle" << endl;
-    } while (menu);
-    Numberle();
+        cout << "2. Fibonacci"<<endl;
+        cin >> menu;
+
+        if (menu == 1)
+        {
+            Numberle();
+        }
+        else if (menu == 2) {
+            Fibonacci();
+        }
+        else if (menu==3) {
+            cout << "gracias por revisar mi laboratorio" << endl;
+        }
+        else {
+            cout << "Ingrese un numero valido" << endl;
+        }
+    } while (menu!=3);
 }
